@@ -16,12 +16,23 @@ export const register = async (req, res) => {
     if (user) {
       return res.status(400).json({ message: "User already exists" });
     }
-
     const hashedPass = await bcrypt.hash(password, 10);
     const newUser = new User({ email, password: hashedPass });
-    await newUser.save();
+    const token = jwt.sign(
+      { id: newUser._id },
+      process.env.jwt_secret,
+      { expiresIn: "1h" }
+    );
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.cookie("jwt", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      maxAge: 3600000,
+    });
+
+    await newUser.save();
+    return res.status(201).json({ message: "User registered & login successfully" });
   } catch (err) {
     res.status(500).json({ message: "Server error" });
   }
@@ -48,14 +59,14 @@ export const login = async (req, res) => {
 
     const token = jwt.sign(
       { id: user._id },
-      process.env.JWT_SECRET,
+      process.env.jwt_secret,
       { expiresIn: "1h" }
     );
 
     res.cookie("jwt", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: false,
+      sameSite: "lax",
       maxAge: 3600000,
     });
 

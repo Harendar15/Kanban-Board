@@ -19,7 +19,7 @@ export const createTask = async (req,res) => {
     try{
         const task = new Task({...req.body, userId: req.user.id});
         await task.save();
-        res.status(201).json(task);
+        res.status(201).json({message: "Task created successfully"});
     } catch(err){
         console.error(err);
         res.status(500).json({message: "Server error"});
@@ -63,7 +63,7 @@ export const updateTaskStatus = async (req, res) => {
       return res.status(404).json({ message: "Task not found" });
     }
 
-    res.json(task);
+    return res.status(200).json({message: "Task updated successfully"});
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Server error" });

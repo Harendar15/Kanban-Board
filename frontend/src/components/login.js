@@ -16,7 +16,9 @@ function Login({ setIsAuthenticated }) {
     try {
       const res = await axios.post(url, { email, password }, { withCredentials: true });
       toast.success(res.data.message);
-      setIsAuthenticated(true);
+      setTimeout(() => {
+        setIsAuthenticated(true);
+      }, 500);
     } catch (err) {
       toast.error(err.response?.data?.message || 'An error occurred. Please try again.');
       console.error('Login/Register error', err);

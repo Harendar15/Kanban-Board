@@ -51,5 +51,5 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, async () => {
   await connectDB();
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(` Server running on port ${PORT}`);
 });

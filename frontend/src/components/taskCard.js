@@ -53,9 +53,6 @@ function TaskCard({ task, fetchTasks }) {
   return (
     <Card className="task-card"
       ref={drag}
-      style={{
-        
-      }}
     >
       <CardContent>
         <Typography variant="h6" >{task.title}</Typography>

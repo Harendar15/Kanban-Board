@@ -35,13 +35,15 @@ function App() {
     }
   };
 
- 
+
   const logout = async () => {
     try {
       await API.post('/auth/logout');
-      setIsAuthenticated(false);
-      setTasks([]);
       toast.success('Logged out successfully!');
+        setTimeout(() => {
+        setIsAuthenticated(false);
+        setTasks([]);
+      }, 500);
     } catch (err) {
       toast.error('Logout failed. Please try again.');
       console.error('Logout failed', err);
